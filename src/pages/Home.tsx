@@ -1,13 +1,21 @@
 import { SearchIcon } from '@chakra-ui/icons';
 import { Flex, Grid, Input, InputGroup, InputLeftElement, Select, Spinner } from '@chakra-ui/react';
-import { useState } from 'react';
+import { BaseSyntheticEvent, useState } from 'react';
 import { CardCountry } from '../components/CardCountry';
 import { Pagination } from '../components/Pagination';
 import { REGIONS, useAllCountries } from '../hooks/useAllCountries';
 
 export function Home () {
-  const { countries, setRegion } = useAllCountries();
+  const { countries, setRegion, setName, isFetching } = useAllCountries();
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [timeoutId, setTimeoutId] = useState<number>();
+
+  function handleSearch (e: BaseSyntheticEvent) {
+    clearTimeout(timeoutId);
+    setTimeoutId(setTimeout(() => {
+      setName(e.target.value);
+    }, 500));
+  }
 
   return (
     <Flex
@@ -25,6 +33,7 @@ export function Home () {
         gap={{ base: '32px', md: 'none' }}
       >
         <InputGroup
+          position='relative'
           background='backgroundWhite'
           shadow='sm'
           maxW='500px'
@@ -33,7 +42,12 @@ export function Home () {
             <SearchIcon />
           </InputLeftElement>
 
-          <Input border='hidden' placeholder='Search for a country...' />
+          <Input
+            onChange={handleSearch}
+            border='hidden'
+            placeholder='Search for a country...'
+          />
+
         </InputGroup>
 
         <Select
@@ -80,7 +94,9 @@ export function Home () {
               onUpdatePagination={(toPage) => setCurrentPage(toPage)}
             />
           </>
-          : <Flex flexGrow={1} justify='center' align='center' ><Spinner /></Flex>
+          : isFetching
+            ? <Flex flexGrow={1} justify='center' align='center' ><Spinner /></Flex>
+            : <>Nothing to show</>
       }
 
     </Flex>
