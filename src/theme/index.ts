@@ -13,6 +13,14 @@ const semanticTokens = {
   }
 };
 
+const breakpoints = {
+  sm: '576px',
+  md: '768px',
+  lg: '1024px',
+  xl: '1440px',
+  '2xl': '1920px'
+};
+
 const fonts = {
   heading: '\'Nunito Sans\', sans-serif',
   body: '\'Nunito Sans\', sans-serif'
@@ -32,4 +40,4 @@ const styles = {
   })
 };
 
-export const theme = extendTheme({ config, semanticTokens, fonts, styles });
+export const theme = extendTheme({ breakpoints, config, semanticTokens, fonts, styles });

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-export function useCountry (name: string) {
+export function useDetailedCountry (name: string) {
   const [country, setCountry] = useState(null);
 
   useEffect(() => {

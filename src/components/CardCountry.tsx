@@ -12,6 +12,7 @@ export function CardCountry ({ country }: CardCountryProps) {
       flexDir='column'
       w='280px'
       alignSelf='center'
+      justifySelf='center'
       rounded={6}
       overflow='hidden'
       shadow='sm'

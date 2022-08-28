@@ -1,56 +1,76 @@
 import { SearchIcon } from '@chakra-ui/icons';
-import { Flex, Input, InputGroup, InputLeftElement, Select, Spinner } from '@chakra-ui/react';
+import { Flex, Grid, Input, InputGroup, InputLeftElement, Select, Spinner } from '@chakra-ui/react';
 import { useState } from 'react';
 import { CardCountry } from '../components/CardCountry';
 import { Pagination } from '../components/Pagination';
-import { useAllCountries } from '../hooks/useAllCountries';
+import { REGIONS, useAllCountries } from '../hooks/useAllCountries';
 
 export function Home () {
-  const { countries } = useAllCountries();
+  const { countries, setRegion } = useAllCountries();
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   return (
     <Flex
       as='main'
       flexDir='column'
+      grow={1}
       gap={8}
       px={4}
       py={6}
     >
 
-      <InputGroup
-        background='backgroundWhite'
-        shadow='sm'
+      <Flex
+        flexDir={{ base: 'column', md: 'row' }}
+        justify={{ base: 'inherit', md: 'space-between' }}
+        gap={{ base: '32px', md: 'none' }}
       >
-        <InputLeftElement>
-          <SearchIcon />
-        </InputLeftElement>
+        <InputGroup
+          background='backgroundWhite'
+          shadow='sm'
+          maxW='500px'
+        >
+          <InputLeftElement>
+            <SearchIcon />
+          </InputLeftElement>
 
-        <Input border='hidden' placeholder='Search for a country...' />
-      </InputGroup>
+          <Input border='hidden' placeholder='Search for a country...' />
+        </InputGroup>
 
-      <Select
-        background='backgroundWhite'
-        placeholder='Filter by Region'
-        shadow='sm'
-        w='200px'
-        border='hidden'
-      >
-        <option value='africa'>Africa</option>
-        <option value='america'>America</option>
-        <option value='asia'>Asia</option>
-        <option value='europe'>Europe</option>
-        <option value='oceania'>Oceania</option>
-      </Select>
+        <Select
+          background='backgroundWhite'
+          placeholder='Filter by Region'
+          shadow='sm'
+          w='200px'
+          border='hidden'
+          onChange={(e) => setRegion(e.target.value)}
+        >
+          <option value={REGIONS.AFRICA}>Africa</option>
+          <option value={REGIONS.AMERICA}>Americas</option>
+          <option value={REGIONS.ASIA}>Asia</option>
+          <option value={REGIONS.EUROPE}>Europe</option>
+          <option value={REGIONS.OCEANIA}>Oceania</option>
+        </Select>
+      </Flex>
 
       {
         countries
           ? <>
-            {
-              countries.slice((currentPage - 1) * 10, currentPage * 10).map((country, index) => (
-                <CardCountry country={country} key={index} />
-              ))
-            }
+            <Grid
+              gap='32px'
+              templateColumns={{
+                base: '1fr',
+                md: '1fr 1fr',
+                lg: 'repeat(3, 1fr)',
+                xl: 'repeat(4, 1fr)'
+              }}
+            >
+              {
+                countries.slice((currentPage - 1) * 10, currentPage * 10).map((country, index) => (
+                  <CardCountry country={country} key={index} />
+                ))
+              }
+            </Grid>
+
             <Pagination
               meta={{
                 currentPage,
@@ -60,7 +80,7 @@ export function Home () {
               onUpdatePagination={(toPage) => setCurrentPage(toPage)}
             />
           </>
-          : <Spinner />
+          : <Flex flexGrow={1} justify='center' align='center' ><Spinner /></Flex>
       }
 
     </Flex>

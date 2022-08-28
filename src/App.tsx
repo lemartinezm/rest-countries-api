@@ -10,6 +10,7 @@ function App () {
   const textColorMode = useColorModeValue('Dark Mode', 'Light Mode');
   return (
     <Flex
+      minH='100vh'
       flexDir='column'
     >
 
