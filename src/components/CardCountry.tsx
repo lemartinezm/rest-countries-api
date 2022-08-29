@@ -1,4 +1,5 @@
 import { Flex, Heading, Image, Text } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 import { CountrySchema } from '../hooks/useAllCountries';
 
 type CardCountryProps = {
@@ -6,6 +7,8 @@ type CardCountryProps = {
 }
 
 export function CardCountry ({ country }: CardCountryProps) {
+  const navigate = useNavigate();
+
   return (
     <Flex
       as='article'
@@ -17,6 +20,7 @@ export function CardCountry ({ country }: CardCountryProps) {
       overflow='hidden'
       shadow='sm'
       background='backgroundWhite'
+      onClick={() => navigate(country.name.common.toLowerCase())}
     >
       <Image src={country.flags.png} alt={`${country.name.common} flag`} />
 

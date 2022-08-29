@@ -19,7 +19,7 @@ export function Pagination ({ meta, onUpdatePagination }: PaginationProps) {
       gap={2}
     >
       <Text>
-        Total results {meta.totalDocuments}
+        Total results: {meta.totalDocuments}
       </Text>
       <ButtonGroup>
         <IconButton
