@@ -1,3 +1,4 @@
+import { ArrowBackIcon } from '@chakra-ui/icons';
 import { Button, Flex, Grid, GridItem, Heading, Image, Spinner, Text } from '@chakra-ui/react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDetailedCountry } from '../hooks/useDetailedCountry';
@@ -9,68 +10,119 @@ export function Details () {
 
   return (
     <Flex
+      as='main'
       flexDir='column'
+      m={{ base: '32px', lg: '80px' }}
+      gap={{ base: '32px', lg: '96px' }}
+      flex={1}
+      maxW={{ sm: '500px', md: '700px', lg: '900px', xl: '1280px' }}
+      w={{ lg: '100%' }}
+      alignSelf={{ base: 'center' }}
+      boxSizing='content-box'
     >
-      <Button onClick={() => navigate('/')}>
+      <Button
+        px='16px'
+        py='8px'
+        leftIcon={<ArrowBackIcon />}
+        onClick={() => navigate('/')}
+        lineHeight='none'
+        w='112px'
+        shadow='md'
+        background='backgroundWhite'
+      >
         Back
       </Button>
       {
         country
-          ? <>
-            <Image src={country.flags.png} />
+          ? <Flex
+            flexDir={{ base: 'column', lg: 'row' }}
+            gap={{ base: '32px', lg: '96px' }}
+            alignSelf='center'
+            w='100%'
+          >
+            <Image src={country.flags.png} objectFit='contain' w='600px' />
 
-            <Heading>{country.name.common}</Heading>
+            <Flex alignSelf='center' flexDir='column' flex={1} gap='32px' w='100%'>
 
-            <Text>
-              <Text as='span'>Native Name: </Text> {Object.values<any>(country.name.nativeName)[0].official}
-            </Text>
+              <Heading fontSize='28px' >{country.name.common}</Heading>
 
-            <Text>
-              <Text as='span'>Population: </Text> {country.population}
-            </Text>
+              <Flex flexDir={{ base: 'column', md: 'row' }} gap='32px'>
+                <Flex flexDir='column' gap='16px' flex={1}>
+                  <Text>
+                    <Text as='span' fontWeight={600}>Native Name: </Text>
+                    {Object.values<any>(country.name.nativeName)[0].official}
+                  </Text>
 
-            <Text>
-              <Text as='span'>Region: </Text> {country.region}
-            </Text>
+                  <Text>
+                    <Text as='span' fontWeight={600}>Population: </Text>
+                    {country.population.toLocaleString()}
+                  </Text>
 
-            <Text>
-              <Text as='span'>Sub Region: </Text> {country.subregion}
-            </Text>
+                  <Text>
+                    <Text as='span' fontWeight={600}>Region: </Text>
+                    {country.region}
+                  </Text>
 
-            <Text>
-              <Text as='span'>Capital: </Text> {country.capital[0]}
-            </Text>
+                  <Text>
+                    <Text as='span' fontWeight={600}>Sub Region: </Text>
+                    {country.subregion}
+                  </Text>
 
-            <Text>
-              <Text as='span'>Top Level Domain: </Text> {country.tld[0]}
-            </Text>
+                  <Text>
+                    <Text as='span' fontWeight={600}>Capital: </Text>
+                    {country.capital.join(', ')}
+                  </Text>
+                </Flex>
 
-            <Text>
-              <Text as='span'>Currencies: </Text> {Object.values<any>(country.currencies).map(value => value.name).join(', ')}
-            </Text>
+                <Flex flexDir='column' gap='16px' mt='8px' flex={1}>
+                  <Text>
+                    <Text as='span' fontWeight={600}>Top Level Domain: </Text>
+                    {country.tld[0]}
+                  </Text>
 
-            <Text>
-              <Text as='span'>Languages: </Text> {Object.values<any>(country.languages).join(', ')}
-            </Text>
+                  <Text>
+                    <Text as='span' fontWeight={600}>Currencies: </Text>
+                    {Object.values<any>(country.currencies).map(value => value.name).join(', ')}
+                  </Text>
 
-            <Heading>Border Countries:</Heading>
-            <Grid templateColumns='repeat(3, 1fr)' gap='16px'>
-              {
-                borderCountries.length > 0
-                  ? borderCountries.map((borderCountry, index) => (
-                    <GridItem w='100%' key={`border-country-${index}`} justifySelf='center' >
-                      <Button w='100%' onClick={() => navigate(`/${borderCountry.toLocaleLowerCase()}`)}>
-                        {borderCountry}
-                      </Button>
-                    </GridItem>
-                  ))
-                  : <>No border countries</>
-              }
-            </Grid>
-          </>
+                  <Text>
+                    <Text as='span' fontWeight={600}>Languages: </Text>
+                    {Object.values<any>(country.languages).join(', ')}
+                  </Text>
+                </Flex>
+              </Flex>
+
+              <Flex flexDir={{ base: 'column', lg: 'row' }} gap='16px' mt='8px'>
+                <Text fontWeight={600} fontSize='18px'>Border Countries:</Text>
+
+                {
+                  borderCountries.length > 0
+                    ? <Grid templateColumns={{ base: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }} gap='8px' flex={1}>
+                      {
+                        borderCountries.map((borderCountry, index) => (
+                          <GridItem w='100%' key={`border-country-${index}`} justifySelf='center' >
+                            <Button
+                              w='100%'
+                              onClick={() => navigate(`/${borderCountry.toLocaleLowerCase()}`)}
+                              shadow='md'
+                              background='backgroundWhite'
+                            >
+                              {borderCountry}
+                            </Button>
+                          </GridItem>
+                        ))
+                      }
+                    </Grid>
+                    : <>No border countries</>
+                }
+              </Flex>
+
+            </Flex>
+
+          </Flex>
           : isFetching
-            ? <><Spinner /></>
-            : <>Not found</>
+            ? <Flex flexGrow={1} justify='center' align='center' ><Spinner /></Flex>
+            : <>Country not found</>
       }
     </Flex>
   );

@@ -20,6 +20,7 @@ export function CardCountry ({ country }: CardCountryProps) {
       overflow='hidden'
       shadow='sm'
       background='backgroundWhite'
+      cursor='pointer'
       onClick={() => navigate(country.name.common.toLowerCase())}
     >
       <Image src={country.flags.png} alt={`${country.name.common} flag`} />

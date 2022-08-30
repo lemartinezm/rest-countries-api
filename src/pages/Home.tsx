@@ -23,7 +23,7 @@ export function Home () {
       flexDir='column'
       grow={1}
       gap={8}
-      px={4}
+      px={{ base: '16px', md: '40px', lg: '80px' }}
       py={6}
     >
 
