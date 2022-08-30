@@ -23,6 +23,7 @@ export function Details () {
       <Button
         px='16px'
         py='8px'
+        rounded={6}
         leftIcon={<ArrowBackIcon />}
         onClick={() => navigate('/')}
         lineHeight='none'
@@ -106,6 +107,7 @@ export function Details () {
                               onClick={() => navigate(`/${borderCountry.toLocaleLowerCase()}`)}
                               shadow='md'
                               background='backgroundWhite'
+                              rounded={6}
                             >
                               {borderCountry}
                             </Button>

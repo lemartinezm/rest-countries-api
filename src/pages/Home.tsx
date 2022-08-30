@@ -37,6 +37,7 @@ export function Home () {
           background='backgroundWhite'
           shadow='sm'
           maxW='500px'
+          rounded={6}
         >
           <InputLeftElement>
             <SearchIcon />
@@ -54,6 +55,7 @@ export function Home () {
           background='backgroundWhite'
           placeholder='Filter by Region'
           shadow='sm'
+          rounded={6}
           w='200px'
           border='hidden'
           onChange={(e) => setRegion(e.target.value)}
