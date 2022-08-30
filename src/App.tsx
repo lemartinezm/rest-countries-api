@@ -22,7 +22,7 @@ function App () {
         px={{ base: '16px', md: '40px', lg: '80px' }}
         py={6}
       >
-        <Heading as='h1' fontSize={16} >Where in the world?</Heading>
+        <Heading as='h1' fontSize={{ base: 16, md: 24 }} >Where in the world?</Heading>
         <Button
           leftIcon={colorModeIcon}
           onClick={toggleColorMode}
